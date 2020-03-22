@@ -10,7 +10,7 @@ ext.versions = [
         picasso           : '2.5.2',
 
         // Others.
-        coroutines        : '1.3.4',
+        coroutines        : '1.3.5',
         retrofit          : '2.7.2',
         okHttp            : '4.4.0',
         okio              : '2.4.3',
@@ -67,6 +67,8 @@ ext.libraries = [
         mockito               : "org.mockito:mockito-core:$versions.mockito",
         mockitoKotlin         : "com.nhaarman.mockitokotlin2:mockito-kotlin:$versions.mockitoKotlin",
         coroutinesCore        : "org.jetbrains.kotlinx:kotlinx-coroutines-core:$versions.coroutines",
+        coroutinesCoreCommon  : "org.jetbrains.kotlinx:kotlinx-coroutines-core-common:$versions.coroutines",
+        coroutinesCoreNative  : "org.jetbrains.kotlinx:kotlinx-coroutines-core-native:$versions.coroutines",
         coroutinesRx          : "org.jetbrains.kotlinx:kotlinx-coroutines-rx2:$versions.coroutines",
         coroutinesReactive    : "org.jetbrains.kotlinx:kotlinx-coroutines-reactive:$versions.coroutines",
         coroutinesAndroid     : "org.jetbrains.kotlinx:kotlinx-coroutines-android:$versions.coroutines",
