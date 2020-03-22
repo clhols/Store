@@ -52,6 +52,13 @@ allprojects {
         disabledRules = ["import-ordering"]
     }
 
+// the only place where HostManager could be instantiated
+    project.ext.hostManager = new org.jetbrains.kotlin.konan.target.HostManager()
+
+/*
+ *  This is a hack to avoid creating unsupported native source sets when importing project into IDEA
+ */
+    project.ext.ideaActive = System.getProperty('idea.active') == 'true'
 
     // Workaround to prevent Gradle from stealing focus from other apps during tests run/etc.
     // https://gist.github.com/artem-zinnatullin/4c250e04636e25797165

@@ -8,13 +8,24 @@ plugins {
 group = GROUP
 version = VERSION_NAME
 apply from: rootProject.file("gradle/jacoco.gradle")
+apply from: rootProject.file("gradle/targets.gradle")
 targetCompatibility = 1.8
 sourceCompatibility = 1.8
 
 kotlin {
     jvm()
-    ios()
-    macosX64()
+    targets {
+        if (project.ext.ideaActive) {
+            fromPreset(project.ext.ideaPreset, 'native')
+        } else {
+            fromPreset(presets.linuxX64, 'linuxX64')
+            fromPreset(presets.iosArm64, 'iosArm64')
+            fromPreset(presets.iosArm32, 'iosArm32')
+            fromPreset(presets.iosX64, 'iosX64')
+            fromPreset(presets.macosX64, 'macosX64')
+            fromPreset(presets.mingwX64, 'windowsX64')
+        }
+    }
 
     sourceSets {
         all {
@@ -24,7 +35,6 @@ kotlin {
                 progressiveMode = true
             }
         }
-
         commonMain {
             dependencies {
                 implementation kotlin('stdlib-common')
@@ -37,8 +47,6 @@ kotlin {
                 implementation kotlin('test')
                 implementation kotlin('test-common')
                 implementation kotlin('test-annotations-common')
-                implementation libraries.coroutinesCore
-                implementation libraries.coroutinesCoreCommon
                 implementation libraries.coroutinesTest
             }
         }
@@ -47,15 +55,14 @@ kotlin {
                 implementation kotlin('test-junit')
             }
         }
-        macosX64Main {
+        nativeMain {
+            dependsOn commonMain
             dependencies {
                 implementation libraries.coroutinesCoreNative
             }
         }
-        iosMain {
-            dependencies {
-                implementation libraries.coroutinesCoreNative
-            }
+        nativeTest {
+            dependsOn commonTest
         }
     }
 }
