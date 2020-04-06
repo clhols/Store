@@ -39,9 +39,10 @@ import kotlinx.coroutines.test.TestCoroutineScope
 import kotlinx.coroutines.test.runBlockingTest
 import kotlinx.coroutines.yield
 import kotlin.test.Test
+import kotlin.test.assertFailsWith
 import kotlin.test.assertEquals
-import kotlin.test.assertFalse
 import kotlin.test.assertTrue
+import kotlin.test.assertFalse
 
 @FlowPreview
 @ExperimentalStdlibApi
@@ -500,9 +501,10 @@ class MulticastTest {
     @Test
     fun `GIVEN no piggybackDownstream WHEN adding a piggybackOnly downstream THEN throws IllegalStateException`() =
         testScope.runBlockingTest {
-            val multicaster = createMulticaster(flowOf("a"), piggybackDownstream = false)
-            multicaster.newDownstream(piggybackOnly = true)
-            TODO("(expected = IllegalStateException::class)")
+            assertFailsWith(IllegalStateException::class) {
+                val multicaster = createMulticaster(flowOf("a"), piggybackDownstream = false)
+                multicaster.newDownstream(piggybackOnly = true)
+            }
         }
 
     private fun versionedMulticaster(
