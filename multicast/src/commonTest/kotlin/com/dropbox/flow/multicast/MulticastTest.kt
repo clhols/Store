@@ -499,13 +499,14 @@ class MulticastTest {
         }
 
     @Test
-    fun `GIVEN no piggybackDownstream WHEN adding a piggybackOnly downstream THEN throws IllegalStateException`() =
-        testScope.runBlockingTest {
-            assertFailsWith(IllegalStateException::class) {
+    fun `GIVEN no piggybackDownstream WHEN adding a piggybackOnly downstream THEN throws IllegalStateException`() {
+        assertFailsWith(IllegalStateException::class, "Must fail with IllegalStateException") {
+            testScope.runBlockingTest {
                 val multicaster = createMulticaster(flowOf("a"), piggybackDownstream = false)
                 multicaster.newDownstream(piggybackOnly = true)
             }
         }
+    }
 
     private fun versionedMulticaster(
         bufferSize: Int = 0,
