@@ -1,5 +1,7 @@
 package com.dropbox.android.external.cache4
 
+import co.touchlab.stately.collections.IsoMutableMap
+import co.touchlab.stately.collections.sharedMutableMapOf
 import kotlinx.atomicfu.locks.ReentrantLock
 import kotlinx.atomicfu.locks.reentrantLock
 import kotlin.concurrent.withLock
@@ -9,9 +11,9 @@ import kotlin.concurrent.withLock
  */
 internal class KeyedSynchronizer<Key : Any> {
 
-    private val keyBasedLocks: MutableMap<Key, LockEntry> = hashMapOf()
+    private val keyBasedLocks: IsoMutableMap<Key, LockEntry> = sharedMutableMapOf()
 
-    private val mapLock = Any()
+    private val mapLock = reentrantLock()
 
     /**
      * Executes the given [action] under a lock associated with the [key].
@@ -32,7 +34,7 @@ internal class KeyedSynchronizer<Key : Any> {
      * If one cannot be found, create a new [LockEntry], save it to the map, and return it.
      */
     private fun getLock(key: Key): ReentrantLock {
-        synchronized(mapLock) {
+        mapLock.withLock {
             val lockEntry = keyBasedLocks[key] ?: LockEntry(reentrantLock(), 0)
             // increment the counter to indicate a new thread is using the lock
             lockEntry.counter++
@@ -49,7 +51,7 @@ internal class KeyedSynchronizer<Key : Any> {
      * if no other thread is using the lock.
      */
     private fun removeLock(key: Key) {
-        synchronized(mapLock) {
+        mapLock.withLock {
             // decrement the counter to indicate the lock is no longer needed for this thread,
             // then remove the lock entry from map if no other thread is still holding this lock
             val lockEntry = keyBasedLocks[key] ?: return

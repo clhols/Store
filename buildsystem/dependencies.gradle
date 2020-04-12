@@ -35,6 +35,7 @@ ext.versions = [
         navigation        : '2.2.1',
         constraintLayout  : '1.1.3',
         rx2               : '2.2.18',
+        stately           : '1.0.2-a4',
 
         // Testing.
         junit             : '4.13',
@@ -69,6 +70,8 @@ ext.libraries = [
         roomRuntime           : "androidx.room:room-ktx:$versions.room",
         coreKtx               : "androidx.core:core-ktx:$versions.coreKtx",
         rx2                   : "io.reactivex.rxjava2:rxjava:$versions.rx2",
+        statelyIsolate        : "co.touchlab:stately-isolate:$versions.stately",
+        statelyIsoCollections : "co.touchlab:stately-iso-collections:$versions.stately",
 
         // Testing.
         junit                 : "junit:junit:$versions.junit",

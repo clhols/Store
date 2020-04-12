@@ -13,6 +13,8 @@ plugins {
 
 dependencies {
     implementation libraries.kotlinStdLib
+    implementation libraries.statelyIsolate
+    implementation libraries.statelyIsoCollections
 
     testImplementation libraries.junit
     testImplementation libraries.truth
